@@ -9,13 +9,13 @@ function main {
 # menu for all the functions, so you can call whichever one you need
 echo "this is the function menu"
 read -n1 -p 	"Press 1 for updates, 
-		press 2 for installing tools, 
-  		press 3 for ufw configs, 
-    		press 4 for password policies, 
-      		press 5 for ssh configs
-		press 6 for removing media files
-  		press 7 for rootkit configs
-    		press 8 for software cleanup" osin
+	press 2 for installing tools, 
+	press 3 for ufw configs, 
+	press 4 for password policies, 
+	press 5 for ssh configs
+	press 6 for removing media files
+	press 7 for rootkit configs
+	press 8 for software cleanup" osin
 	if [ "$osin" = "1" ]; then
 		aptf #apt-get update #
 	elif [ "$osin" = "2" ]; then
@@ -46,6 +46,7 @@ function cont {
 	read -n1 -p "Press space to continue, AOK to quit" key
 	if [ "$key" = "" ]; then
 		echo "Moving forward..."
+  		main
 	else
 		echo "Quitting script..."
 		exit 1
