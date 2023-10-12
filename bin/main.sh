@@ -29,7 +29,7 @@ read -n1 -p 	"Press 1 for updates,
   	elif [ "$osin" = "6" ]; then
 		nomedia #gets rid of media files #
   	elif [ "$osin" = "7" ]; then
-		rootkits #configures rootkit tools to run weekly
+		rootkits #configures rootkit tools to run weekly, sets up and starts fail2ban for brute force protection
   	elif [ "$osin" = "8" ]; then
 		scruboff #get rid of software
 	fi
@@ -185,6 +185,9 @@ function nopass {
 	echo "Copying local common-password file..."
 	cp ../resources/my_common-password /etc/pam.d/common-password
 
+	# Implement strong password policies
+	sudo apt install libpam-pwquality
+	sudo sed -i 's/password requisite pam_pwquality.so retry=3/password requisite pam_pwquality.so retry=3 minlen=12 ucredit=-1 lcredit=-1 dcredit=-1 ocredit=-1/' /etc/security/pwquality.conf
 	echo 'Password policies configured'
 	# done configuring
 
@@ -200,11 +203,12 @@ function nopass {
 
 function sshfix {
 	echo ''
-	echo 'Turn off root login settings for ssh'
-	#echo 'This must be performed manually'
+	echo 'Turning off root login settings for ssh'
 	echo "Making a backup config file..."
 	cp /etc/ssh/sshd_config /etc/ssh/sshd_config~
 	chmod a-w /etc/ssh/sshd_config~
+ 	sudo sed -i 's/PermitRootLogin yes/PermitRootLogin no/' /etc/ssh/sshd_config
+	sudo systemctl restart sshd
 	cont
 
 #TODO make sure that default config doesn't change after installing openssh-server
@@ -253,6 +257,10 @@ function rootkits {
 	mv /etc/cron.weekly/rkhunter /etc/cron.weekly/rkhunter_update
 	mv /etc/cron.daily/rkhunter /etc/cron.weekly/rkhunter_run
 	mv /etc/cron.daily/chkrootkit /etc/cron.weekly/
+ 	sudo apt install fail2ban
+	sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
+	sudo systemctl enable fail2ban
+	sudo systemctl start fail2ban
 #	chkrootkit
 #	rkhunter
 }
@@ -263,7 +271,16 @@ function scruboff {
 	echo "starting AV..."
 	freshclam
 	clamscan -i -r --remove=yes /
-	apt-get autoremove
+	apt-get autoremove /
+ 	wireshark-common /
+  	telnet /
+   	nmap /
+    	hydra /
+   	deluge-gtk /
+    	nginx-agent /
+     	ettercap /
+      	transmission-gtk /
+     	
 	cont
 }
 
