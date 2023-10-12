@@ -5,19 +5,34 @@ echo 'The script is now running...'
 
 function main {
 	echo "main function running..."
-
-#	begin scripts
-
-#	verwd #check what the working directory is
-	aptf #apt-get update #
-	toolbelt #install tools #
-	noport #enables ufw
-	lockdown #locks accounts #
-	nopass #sets password policies
-	sshfix #sshconfig #
-	nomedia #gets rid of media files #
-#	rootkits #configures rootkit tools to run weekly
-#	scruboff #get rid of software
+ 
+# menu for all the functions, so you can call whichever one you need
+echo "this is the function menu"
+read -n1 -p 	"Press 1 for updates, 
+		press 2 for installing tools, 
+  		press 3 for ufw configs, 
+    		press 4 for password policies, 
+      		press 5 for ssh configs
+		press 6 for removing media files
+  		press 7 for rootkit configs
+    		press 8 for software cleanup" osin
+	if [ "$osin" = "1" ]; then
+		aptf #apt-get update #
+	elif [ "$osin" = "2" ]; then
+		toolbelt #install tools #
+  	elif [ "$osin" = "3" ]; then
+		noport #enables ufw
+  	elif [ "$osin" = "4" ]; then
+		nopass #sets password policies
+  	elif [ "$osin" = "5" ]; then
+		sshfix #sshconfig #
+  	elif [ "$osin" = "6" ]; then
+		nomedia #gets rid of media files #
+  	elif [ "$osin" = "7" ]; then
+		rootkits #configures rootkit tools to run weekly
+  	elif [ "$osin" = "8" ]; then
+		scruboff #get rid of software
+	fi
 
 #	end of scripts
 
