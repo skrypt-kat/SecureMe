@@ -37,11 +37,10 @@ function main {
   	elif [ "$osin" = "9" ]; then
 		userchanges
 	fi
-}
 
 # function that pauses between steps
 function cont {
-	read -n1 -p "Press space to continue, AOK to quit" key
+	read "Press space to continue, AOK to quit" key
 	if [ "$key" = "" ]; then
 		echo "Moving forward..."
   		main
