@@ -8,7 +8,7 @@ function main {
  
 # menu for all the functions, so you can call whichever one you need
 	echo "this is the function menu"
-	read --r -n 1 -p "Press 1 for updates, 
+	echo "	Press 1 for updates, 
 	press 2 for installing tools, 
 	press 3 for ufw configs, 
 	press 4 for password policies, 
@@ -16,7 +16,8 @@ function main {
 	press 6 for removing media files
 	press 7 for rootkit configs
 	press 8 for software cleanup
- 	press 9 for users" osin
+ 	press 9 for users" 
+  	read osin
 	if [ "$osin" = "1" ]; then
 		aptf #apt-get update #
 	elif [ "$osin" = "2" ]; then
