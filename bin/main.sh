@@ -38,6 +38,8 @@ function main {
 		userchanges
 	fi
 
+ }
+
 # function that pauses between steps
 function cont {
 	read "Press space to continue, AOK to quit" key
