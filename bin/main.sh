@@ -295,17 +295,18 @@ function userchanges {
 function scruboff {
 	echo "starting AV..."
 	freshclam
-	clamscan -i -r --remove=yes /
-	apt-get autoremove /
- 	wireshark-common /
-  	telnet /
-   	nmap /
-    	hydra /
-   	deluge-gtk /
-    	nginx-agent /
-     	ettercap /
-      	transmission-gtk /
-       sudo dpkg --get-selections | less  >> allpackages.txt
+	clamscan -i -r --remove=yes \
+	apt-get purge autoremove
+ 	apt-get purge \
+ 	wireshark-common \
+  	telnet \
+   	nmap \
+    	hydra \
+   	deluge-gtk \
+    	nginx-agent \
+     	ettercap \
+      	transmission-gtk 
+       systemctl list-units  --type=service  >> allpackages.txt
        printf'all known programs deleted' >> checklist.txt
 
      	
