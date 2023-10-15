@@ -1,13 +1,53 @@
- #!/bin/bash
+#! /bin/bash
 
 echo 'Hello, user! Welcome to my script.'
 echo 'The script is now running...'
 
+function main {
+	echo "main function running..."
+ 
+# menu for all the functions, so you can call whichever one you need
+echo "this is the function menu"
+read -n1 -p 	"Press 1 for updates, 
+	press 2 for installing tools, 
+	press 3 for ufw configs, 
+	press 4 for password policies, 
+	press 5 for ssh configs
+	press 6 for removing media files
+	press 7 for rootkit configs
+	press 8 for software cleanup
+ 	press 9 for users" 
+ 	osin
+	if [ "$osin" = "1" ]; then
+		aptf #apt-get update #
+	elif [ "$osin" = "2" ]; then
+		toolbelt #install tools #
+  	elif [ "$osin" = "3" ]; then
+		noport #enables ufw
+  	elif [ "$osin" = "4" ]; then
+		nopass #sets password policies
+  	elif [ "$osin" = "5" ]; then
+		sshfix #sshconfig #
+  	elif [ "$osin" = "6" ]; then
+		nomedia #gets rid of media files #
+  	elif [ "$osin" = "7" ]; then
+		rootkits #configures rootkit tools to run weekly, sets up and starts fail2ban for brute force protection
+  	elif [ "$osin" = "8" ]; then
+		scruboff #get rid of software
+  	elif [ "$osin" = "9" ]; then
+		userchanges
+	fi
+
+#	end of scripts
+
+	echo "Script is complete..."
+	cont
+}
 
 
 # function that pauses between steps
 function cont {
-	read "Press space to continue, AOK to quit" key
+	read -n1 -p "Press space to continue, AOK to quit" key
 	if [ "$key" = "" ]; then
 		echo "Moving forward..."
   		main
@@ -135,20 +175,25 @@ function lockdown {
 function nopass {
 	echo ""
 	echo "Changing password policies requires manual interaction\n"
+
 	#run cracklib
+
 	#login.defs
 	echo "Making a backup login.defs file..."
 	cp /etc/login.defs /etc/login.defs~
 	chmod a-w /etc/login.defs~
 	cont
+
 	echo "Copying local login.defs file..."
 	cp ../resources/my_login.defs /etc/login.defs
 	nano /etc/login.defs
+ 	
 	#common-password
 	echo "Making a backup config file..."
 	cp /etc/pam.d/common-password /etc/pam.d/common-password~
 	chmod a-w /etc/pam.d/common-password~
 	cont
+
 	echo "Copying local common-password file..."
 	cp ../resources/my_common-password /etc/pam.d/common-password
  	nano /etc/pam.d/common-password
@@ -157,12 +202,15 @@ function nopass {
 	#password requisite pam_unix.so retry=3
 	#password sufficient pam_unix.so use_authtok nullok sha512
 	#password required pam_deny.so
+
 	# Implement strong password policies
 	sudo apt install libpam-pwquality
 	sudo sed -i 's/password requisite pam_pwquality.so retry=3/password requisite pam_pwquality.so retry=3 minlen=10 ucredit=-1 lcredit=-1 dcredit=-1 ocredit=-1/' /etc/security/pwquality.conf
 	echo 'Password policies configured' >> checklist.txt
 	# done configuring
+
 	# will change pass age for users aready created
+
 	#TODO
 	#echo "Applying to all users..."
 	#for i in $(awk -F':' '/\/home.*sh/ { print $1 }' /etc/passwd); do chage -m 3 -M 60 -W 7 $i; done
@@ -181,20 +229,22 @@ function sshfix {
 	sudo systemctl restart sshd
  	printf 'root login turned off' >> checklist.txt
 	cont
+
 #TODO make sure that default config doesn't change after installing openssh-server
 	#permitrootlogin
 	cp ../resources/sshdconfig /etc/ssh/sshd_config
 	cont
+
 	#enables/disables ssh
 	service ssh restart
 	read -n1 -r -p "Press 1 to turn off ssh, space to continue..." key
 	if [ "$key" = '1' ]; then
 		service ssh stop
 	fi
+
 	echo 'Finished ssh config editing'
 	cont
 }
-
 
 #finds and deletes media files
 function nomedia {
@@ -263,42 +313,6 @@ function scruboff {
 	cont
 }
 
-function main {
-	echo "main function running..."
- 
-# menu for all the functions, so you can call whichever one you need
-	echo "this is the function menu"
-	echo "	Press 1 for updates, 
-	press 2 for installing tools, 
-	press 3 for ufw configs, 
-	press 4 for password policies, 
-	press 5 for ssh configs
-	press 6 for removing media files
-	press 7 for rootkit configs
-	press 8 for software cleanup
- 	press 9 for users" 
-  	read osin
-	if [ "$osin" = "1" ]; then
-		aptf #apt-get update #
-	elif [ "$osin" = "2" ]; then
-		toolbelt #install tools #
-  	elif [ "$osin" = "3" ]; then
-		noport #enables ufw
-  	elif [ "$osin" = "4" ]; then
-		nopass #sets password policies
-  	elif [ "$osin" = "5" ]; then
-		sshfix #sshconfig #
-  	elif [ "$osin" = "6" ]; then
-		nomedia #gets rid of media files #
-  	elif [ "$osin" = "7" ]; then
-		rootkits #configures rootkit tools to run weekly, sets up and starts fail2ban for brute force protection
-  	elif [ "$osin" = "8" ]; then
-		scruboff #get rid of software
-  	elif [ "$osin" = "9" ]; then
-		userchanges
-	fi
-
- }
 #actually running the script
 unalias -a #Get rid of aliases
 echo "unalias -a" >> /root/.bashrc # gets rid of aliases when root
