@@ -292,10 +292,10 @@ function userchanges {
 
 #TODO
 function scruboff {
-	echo "starting AV..."
-	freshclam
-	clamscan -i -r --remove=yes \
-	apt-get purge autoremove
+#	echo "starting AV..."
+#	freshclam
+#	clamscan -i -r --remove=yes \
+#	apt-get  autoremove
  	apt-get purge \
  	wireshark-common \
   	telnet \
