@@ -3,42 +3,7 @@
 echo 'Hello, user! Welcome to my script.'
 echo 'The script is now running...'
 
-function main {
-	echo "main function running..."
- 
-# menu for all the functions, so you can call whichever one you need
-	echo "this is the function menu"
-	echo "	Press 1 for updates, 
-	press 2 for installing tools, 
-	press 3 for ufw configs, 
-	press 4 for password policies, 
-	press 5 for ssh configs
-	press 6 for removing media files
-	press 7 for rootkit configs
-	press 8 for software cleanup
- 	press 9 for users" 
-  	read osin
-	if [ "$osin" = "1" ]; then
-		aptf #apt-get update #
-	elif [ "$osin" = "2" ]; then
-		toolbelt #install tools #
-  	elif [ "$osin" = "3" ]; then
-		noport #enables ufw
-  	elif [ "$osin" = "4" ]; then
-		nopass #sets password policies
-  	elif [ "$osin" = "5" ]; then
-		sshfix #sshconfig #
-  	elif [ "$osin" = "6" ]; then
-		nomedia #gets rid of media files #
-  	elif [ "$osin" = "7" ]; then
-		rootkits #configures rootkit tools to run weekly, sets up and starts fail2ban for brute force protection
-  	elif [ "$osin" = "8" ]; then
-		scruboff #get rid of software
-  	elif [ "$osin" = "9" ]; then
-		userchanges
-	fi
 
- }
 
 # function that pauses between steps
 function cont {
@@ -51,7 +16,6 @@ function cont {
 		exit 1
 	fi
 }
-
 
 #apt update
 function aptf {
@@ -299,6 +263,42 @@ function scruboff {
 	cont
 }
 
+function main {
+	echo "main function running..."
+ 
+# menu for all the functions, so you can call whichever one you need
+	echo "this is the function menu"
+	echo "	Press 1 for updates, 
+	press 2 for installing tools, 
+	press 3 for ufw configs, 
+	press 4 for password policies, 
+	press 5 for ssh configs
+	press 6 for removing media files
+	press 7 for rootkit configs
+	press 8 for software cleanup
+ 	press 9 for users" 
+  	read osin
+	if [ "$osin" = "1" ]; then
+		aptf #apt-get update #
+	elif [ "$osin" = "2" ]; then
+		toolbelt #install tools #
+  	elif [ "$osin" = "3" ]; then
+		noport #enables ufw
+  	elif [ "$osin" = "4" ]; then
+		nopass #sets password policies
+  	elif [ "$osin" = "5" ]; then
+		sshfix #sshconfig #
+  	elif [ "$osin" = "6" ]; then
+		nomedia #gets rid of media files #
+  	elif [ "$osin" = "7" ]; then
+		rootkits #configures rootkit tools to run weekly, sets up and starts fail2ban for brute force protection
+  	elif [ "$osin" = "8" ]; then
+		scruboff #get rid of software
+  	elif [ "$osin" = "9" ]; then
+		userchanges
+	fi
+
+ }
 #actually running the script
 unalias -a #Get rid of aliases
 echo "unalias -a" >> /root/.bashrc # gets rid of aliases when root
