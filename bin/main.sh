@@ -16,8 +16,7 @@ read -n1 -p 	"Press 1 for updates,
 	press 6 for removing media files
 	press 7 for rootkit configs
 	press 8 for software cleanup
- 	press 9 for users" 
- 	osin
+ 	press 9 for users" osin
 	if [ "$osin" = "1" ]; then
 		aptf #apt-get update #
 	elif [ "$osin" = "2" ]; then
