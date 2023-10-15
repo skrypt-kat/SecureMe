@@ -1,4 +1,4 @@
-#! /bin/bash
+ #! /bin/bash
 
 echo 'Hello, user! Welcome to my script.'
 echo 'The script is now running...'
@@ -15,7 +15,9 @@ read -n1 -p 	"Press 1 for updates,
 	press 5 for ssh configs
 	press 6 for removing media files
 	press 7 for rootkit configs
-	press 8 for software cleanup" osin
+	press 8 for software cleanup
+ 	press 9 for users" 
+ 	osin
 	if [ "$osin" = "1" ]; then
 		aptf #apt-get update #
 	elif [ "$osin" = "2" ]; then
@@ -32,6 +34,8 @@ read -n1 -p 	"Press 1 for updates,
 		rootkits #configures rootkit tools to run weekly, sets up and starts fail2ban for brute force protection
   	elif [ "$osin" = "8" ]; then
 		scruboff #get rid of software
+  	elif [ "$osin" = "9" ]; then
+		userchanges
 	fi
 
 #	end of scripts
@@ -82,6 +86,7 @@ function toolbelt {
 	ufw \
 	gufw \
 	firefox \
+ 	net-tools \
 	clamav \
 	libpam-cracklib \
 	lsof \
@@ -176,7 +181,8 @@ function nopass {
 
 	echo "Copying local login.defs file..."
 	cp ../resources/my_login.defs /etc/login.defs
-
+	nano /etc/login.defs
+ 	
 	#common-password
 	echo "Making a backup config file..."
 	cp /etc/pam.d/common-password /etc/pam.d/common-password~
@@ -185,10 +191,16 @@ function nopass {
 
 	echo "Copying local common-password file..."
 	cp ../resources/my_common-password /etc/pam.d/common-password
+ 	nano /etc/pam.d/common-password
+ 	# inside of this file:
+	#password requisite pam_pwquality.so retry=3
+	#password requisite pam_unix.so retry=3
+	#password sufficient pam_unix.so use_authtok nullok sha512
+	#password required pam_deny.so
 
 	# Implement strong password policies
 	sudo apt install libpam-pwquality
-	sudo sed -i 's/password requisite pam_pwquality.so retry=3/password requisite pam_pwquality.so retry=3 minlen=12 ucredit=-1 lcredit=-1 dcredit=-1 ocredit=-1/' /etc/security/pwquality.conf
+	sudo sed -i 's/password requisite pam_pwquality.so retry=3/password requisite pam_pwquality.so retry=3 minlen=10 ucredit=-1 lcredit=-1 dcredit=-1 ocredit=-1/' /etc/security/pwquality.conf
 	echo 'Password policies configured'
 	# done configuring
 
@@ -266,6 +278,10 @@ function rootkits {
 #	rkhunter
 }
 
+function userchanges {
+	sudo vipw
+ 	sudo vigr
+}
 
 #TODO
 function scruboff {
@@ -281,6 +297,8 @@ function scruboff {
     	nginx-agent /
      	ettercap /
       	transmission-gtk /
+       sudo dpkg --get-selections | less  >> allpackages.txt
+
      	
 	cont
 }
