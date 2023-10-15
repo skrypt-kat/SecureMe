@@ -71,7 +71,9 @@ function aptf {
 	fi
 
 	apt-get -y update
+ 	printf 'updates done' >> checklist.txt
 	apt-get -y upgrade
+ 	printf 'upgrades done' >> checklist.txt
 #	apt-get -y install --reinstall coreutils
 	echo "Finished updating"
 	cont
@@ -93,9 +95,9 @@ function toolbelt {
 	chkrootkit \
 	openssh-server \
 	rkhunter
-	echo "Finished installs"
+	echo "Finished installs" >> checklist.txt
 	updatedb
-	echo "Updated database"
+	echo "Updated database" >> checklist.txt
 	cont
 }
 
@@ -104,10 +106,12 @@ function noport {
 	echo ""
 	echo "Enabling Uncomplicated Firewall..."
 	ufw enable
+ 	printf 'ufw enabled' >> checklist.txt
 	cont
 
 	echo "Hardening IP security..."
-
+	printf 'IP hardened (netsecfiles)' >> checklist.txt
+ 
 	netsecfilea="$(find /etc/sysctl.d/ -maxdepth 1 -type f -name '*network-security.conf')" # finds default net-sec config file
 	netsecfile="${netsecfilea// }" # eliminates whitespace from the string (if there is any)
 	netsecfileb=$netsecfile"~" # names the backup file
@@ -146,7 +150,8 @@ function noport {
 	cont
 
 	echo "Verify rules..."
-	ufw status
+	ufw status 
+ 	ufw logging on high >> checklist.txt
 	cont
 	echo "Finished managing rules"
 }
@@ -201,7 +206,7 @@ function nopass {
 	# Implement strong password policies
 	sudo apt install libpam-pwquality
 	sudo sed -i 's/password requisite pam_pwquality.so retry=3/password requisite pam_pwquality.so retry=3 minlen=10 ucredit=-1 lcredit=-1 dcredit=-1 ocredit=-1/' /etc/security/pwquality.conf
-	echo 'Password policies configured'
+	echo 'Password policies configured' >> checklist.txt
 	# done configuring
 
 	# will change pass age for users aready created
@@ -222,6 +227,7 @@ function sshfix {
 	chmod a-w /etc/ssh/sshd_config~
  	sudo sed -i 's/PermitRootLogin yes/PermitRootLogin no/' /etc/ssh/sshd_config
 	sudo systemctl restart sshd
+ 	printf 'root login turned off' >> checklist.txt
 	cont
 
 #TODO make sure that default config doesn't change after installing openssh-server
@@ -257,7 +263,7 @@ function nomedia {
 	find /home -name '*.png' -type f -delete
 	find /home -name '*.jpg' -type f -delete
 	find /home -name '*.jpeg' -type f -delete
-	echo "Media deleted"
+	echo "Media deleted" >> checklist.txt
 	cont
 }
 
@@ -274,6 +280,7 @@ function rootkits {
 	sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
 	sudo systemctl enable fail2ban
 	sudo systemctl start fail2ban
+ 	printf'fail2band and crontab done'
 #	chkrootkit
 #	rkhunter
 }
@@ -281,6 +288,7 @@ function rootkits {
 function userchanges {
 	sudo vipw
  	sudo vigr
+  	printf 'users done' >> checklist.txt
 }
 
 #TODO
@@ -298,6 +306,7 @@ function scruboff {
      	ettercap /
       	transmission-gtk /
        sudo dpkg --get-selections | less  >> allpackages.txt
+       printf'all known programs deleted' >> checklist.txt
 
      	
 	cont
