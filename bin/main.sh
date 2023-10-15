@@ -7,8 +7,8 @@ function main {
 	echo "main function running..."
  
 # menu for all the functions, so you can call whichever one you need
-echo "this is the function menu"
-read -n 1 -p 	"Press 1 for updates, 
+	echo "this is the function menu"
+	read -n1 -p "Press 1 for updates, 
 	press 2 for installing tools, 
 	press 3 for ufw configs, 
 	press 4 for password policies, 
