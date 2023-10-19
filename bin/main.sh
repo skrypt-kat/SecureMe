@@ -314,11 +314,25 @@ function scruboff {
      	
 	cont
 }
+# unchecked!!!!
+function ftpconfigs {
+	echo 'Turning off write permissions for ftp'
+	echo "Making a backup ftp config file..."
+	cp /etc/vsftpd.conf /etc/vsftpd.conf~
+	chmod a-w /etc/vsftpd.conf~
+ 	search_keyword="write_enable=YES"
+	replacement_text="write_enable=NO"
 
-function ftpconfigs{
-
-
+	# Check if the search keyword exists in the file
+	if grep -q "$search_keyword" file.txt; then
+   	 # Use sed to replace the line containing the search keyword
+   	 sed -i "s/$search_keyword/$replacement_text/g" file.txt
+   	 echo "Line with '$search_keyword' replaced with '$replacement_text'." >> checklist.txt
+	else
+   	 echo "Search keyword '$search_keyword' not found in the file."
+	fi
 }
+
 
 #actually running the script
 unalias -a #Get rid of aliases
