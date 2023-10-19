@@ -1,0 +1,7 @@
+acc policies- pswd policy, lockout policy
+app sec sets- crit serv sets, req app sets, app perms
+app updts- auto updts etc
+defense countsmes- fwall, ant-vi, encr
+loc pols- aud pols, user rights, net sec opts, privlg elev auth
+pol vios- bcdoors, rem admin tools, keyloggers, pswd sniffers
+uncat op sys sets- remote access, file sharing, screen locking, group pol sets, op sys pems
