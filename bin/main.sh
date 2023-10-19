@@ -8,7 +8,7 @@ function main {
  
 # menu for all the functions, so you can call whichever one you need
 echo "this is the function menu"
-read -n1 -p 	"Press 1 for updates, 
+read -n1 -p "	Press 1 for updates, 
 	press 2 for installing tools, 
 	press 3 for ufw configs, 
 	press 4 for password policies, 
@@ -16,7 +16,8 @@ read -n1 -p 	"Press 1 for updates,
 	press 6 for removing media files
 	press 7 for rootkit configs
 	press 8 for software cleanup
- 	press 9 for users" osin
+ 	press 9 for users
+  	press a for FTP configs" osin
 	if [ "$osin" = "1" ]; then
 		aptf #apt-get update #
 	elif [ "$osin" = "2" ]; then
@@ -35,6 +36,8 @@ read -n1 -p 	"Press 1 for updates,
 		scruboff #get rid of software
   	elif [ "$osin" = "9" ]; then
 		userchanges
+  	elif [ "$osin" = "a" ]; then
+   		ftpconfigs
 	fi
 
 #	end of scripts
@@ -310,6 +313,11 @@ function scruboff {
 
      	
 	cont
+}
+
+function ftpconfigs{
+
+
 }
 
 #actually running the script
