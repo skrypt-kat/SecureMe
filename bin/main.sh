@@ -17,7 +17,8 @@ read -n1 -p "	Press 1 for updates,
 	press 7 for rootkit configs
 	press 8 for software cleanup
  	press 9 for users
-  	press a for FTP configs" osin
+  	press a for FTP configs
+   	press b for PAM file configs " osin
 	if [ "$osin" = "1" ]; then
 		aptf #apt-get update #
 	elif [ "$osin" = "2" ]; then
@@ -38,6 +39,8 @@ read -n1 -p "	Press 1 for updates,
 		userchanges
   	elif [ "$osin" = "a" ]; then
    		ftpconfigs
+     	elif [ "$osin" = "b" ]; then
+   		pamconfigs
 	fi
 
 #	end of scripts
@@ -316,9 +319,10 @@ function scruboff {
 }
 # unchecked!!!!
 function ftpconfigs {
-	echo 'Turning off write permissions for ftp'
 	echo "Making a backup ftp config file..."
 	cp /etc/vsftpd.conf /etc/vsftpd.conf~
+ 	echo 'Turning off write permissions for ftp'
+  	#change permissions for ftp coonfig file   
 	chmod a-w /etc/vsftpd.conf~
  	search_keyword="write_enable=YES"
 	replacement_text="write_enable=NO"
@@ -329,10 +333,24 @@ function ftpconfigs {
    	 sed -i "s/$search_keyword/$replacement_text/g" /etc/vsftpd.conf
    	 echo "Line with '$search_keyword' replaced with '$replacement_text'." >> checklist.txt
 	else
-   	 echo "Search keyword '$search_keyword' not found in the file."
+   	 echo "Search keyword '$search_keyword' not found in /etc/vsftpd.conf." >> checklist.txt
 	fi
 }
+#untested!!!!!!!!!!!
+function pamconfigs {
+	#installing libpam-tally2 to setup account lockout policies
+	sudo apt install libpam-tally2
+ 	echo "libpam-tally2 installed" >> checklist.txt
+  	#making backup files 
+	sudo cp /etc/security/pam_tally2.conf /etc/security/pam_tally2.conf~
+ 	echo "/etc/security/pam_tally2.conf~ is the new backup file" >> checklist.txt
+	sudo cp /etc/security/pam.d/common-auth /etc/security/pam.d/common-auth~
+ 	echo "etc/security/pam.d/common-auth~ is the new backup file" >> checklist.txt
+  	#appending file with lockout policies
+  	printf"auth required pam_tally2.so deny=3 unlock_time=1800" >> etc/security/pam.d/common-auth
+   	echo "account lockout policies of deny=3 unlock_time=1800 set" >> checklist.txt
 
+}
 
 #actually running the script
 unalias -a #Get rid of aliases
