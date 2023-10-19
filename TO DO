@@ -5,3 +5,5 @@ defense countsmes- fwall, ant-vi, encr
 loc pols- aud pols, user rights, net sec opts, privlg elev auth
 pol vios- bcdoors, rem admin tools, keyloggers, pswd sniffers
 uncat op sys sets- remote access, file sharing, screen locking, group pol sets, op sys pems
+add names of all backups into checklist.txt
+add a where are my files command
