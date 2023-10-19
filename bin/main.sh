@@ -324,9 +324,9 @@ function ftpconfigs {
 	replacement_text="write_enable=NO"
 
 	# Check if the search keyword exists in the file
-	if grep -q "$search_keyword" file.txt; then
+	if grep -q "$search_keyword" /etc/vsftpd.conf; then
    	 # Use sed to replace the line containing the search keyword
-   	 sed -i "s/$search_keyword/$replacement_text/g" file.txt
+   	 sed -i "s/$search_keyword/$replacement_text/g" /etc/vsftpd.conf
    	 echo "Line with '$search_keyword' replaced with '$replacement_text'." >> checklist.txt
 	else
    	 echo "Search keyword '$search_keyword' not found in the file."
