@@ -310,9 +310,9 @@ function scruboff {
     	nginx-agent \
      	ettercap \
       	transmission-gtk 
-       systemctl list-units  --type=service  >> allpackages.txt
-       printf'all known programs deleted' >> checklist.txt
-
+       	systemctl list-units  --type=service  >> allpackages.txt
+      	printf'all known programs deleted' >> checklist.txt
+	netstat -tulpn
      	
 	cont
 }
