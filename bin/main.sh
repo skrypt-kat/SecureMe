@@ -18,7 +18,8 @@ read -n1 -p "	Press 1 for updates,
 	press 8 for software cleanup
  	press 9 for users
   	press a for FTP configs
-   	press b for PAM file configs " osin
+   	press b for PAM file configs
+    	press c for file explanations" osin
 	if [ "$osin" = "1" ]; then
 		aptf #apt-get update #
 	elif [ "$osin" = "2" ]; then
@@ -92,13 +93,11 @@ function toolbelt {
 	vim \
 	ufw \
 	gufw \
-	firefox \
  	net-tools \
 	clamav \
 	libpam-cracklib \
 	lsof \
 	chkrootkit \
-	openssh-server \
 	rkhunter
 	echo "Finished installs" >> checklist.txt
 	updatedb
