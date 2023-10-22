@@ -18,8 +18,7 @@ read -n1 -p "	Press 1 for updates,
 	press 8 for software cleanup
  	press 9 for users
   	press a for FTP configs
-   	press b for PAM file configs
-    	press c for file explanations" osin
+   	press b for PAM file configs" osin
 	if [ "$osin" = "1" ]; then
 		aptf #apt-get update #
 	elif [ "$osin" = "2" ]; then
@@ -290,8 +289,8 @@ function rootkits {
 }
 
 function userchanges {
-	sudo vipw
- 	sudo vigr
+	sudo vipw	#shows all users
+ 	sudo vigr	#shows all user groups
   	printf 'users done' >> checklist.txt
 }
 
@@ -301,15 +300,19 @@ function scruboff {
 #	freshclam
 #	clamscan -i -r --remove=yes \
 #	apt-get  autoremove
- 	apt-get purge \
- 	wireshark-common \
-  	telnet \
-   	nmap \
-    	hydra \
-   	deluge-gtk \
-    	nginx-agent \
-     	ettercap \
-      	transmission-gtk 
+ 	apt-get -y purge wireshark-common
+ 	apt-get -y purge zenmap
+  	apt-get -y purge smtp
+   	apt-get -y purge nmap
+    	apt-get -y purge hydra
+     	apt-get -y purge ophcrack
+      	apt-get -y purge zsnes
+       	apt-get -y purge snmp
+	systemctl disable snmpd
+ 	systemctl disable nfs
+  	apt-get -y purge nbtscan
+   	apt-get -y purge ftpscan
+       	
        	systemctl list-units  --type=service  >> allpackages.txt
       	printf'all known programs deleted' >> checklist.txt
 	netstat -tulpn
