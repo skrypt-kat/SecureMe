@@ -1,1 +1,23 @@
+#! /bin/bash
+echo "Making a backup login.defs file..."
+	cp /etc/login.defs /etc/login.defs~
+	chmod a-w /etc/login.defs~
+	cont
 
+	echo "Copying local login.defs file..."
+	cp ../resources/my_login.defs /etc/login.defs
+	nano /etc/login.defs
+ 	
+	#common-password
+	echo "Making a backup config file..."
+	cp /etc/pam.d/common-password /etc/pam.d/common-password~
+	chmod a-w /etc/pam.d/common-password~
+	cont
+
+	echo "Copying local common-password file..."
+	cp ../resources/my_common-password /etc/pam.d/common-password
+ 	nano /etc/pam.d/common-password
+
+ sudo apt install libpam-pwquality
+	sudo sed -i 's/password requisite pam_pwquality.so retry=3/password requisite pam_pwquality.so retry=3 minlen=10 ucredit=-1 lcredit=-1 dcredit=-1 ocredit=-1/' /etc/security/pwquality.conf
+	echo 'Password policies configured' >> checklist.txt
