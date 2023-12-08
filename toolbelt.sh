@@ -22,7 +22,7 @@ read -n1 -p "
     debian
   elif [ "$osin" = "5" ]; then
     exit
-  else ;
+  else
     echo "that is not a valid input :( )"
     toolbelt
   fi
