@@ -61,7 +61,7 @@ function postgresSec {
   sudo sed -i "s/^#listen_addresses = 'localhost'/listen_addresses = 'localhost'/" /etc/postgresql/$PG_VERSION/main/postgresql.conf
 
   # Enable SSL in postgresql.conf (optional)
-  # sudo sed -i "s/^#ssl = off/ssl = on/" /etc/postgresql/$PG_VERSION/main/postgresql.conf
+  sudo sed -i "s/^#ssl = off/ssl = on/" /etc/postgresql/$PG_VERSION/main/postgresql.conf
 
   # Restart PostgreSQL to apply changes
   sudo systemctl restart postgresql
