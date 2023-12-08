@@ -11,9 +11,9 @@ read -n1 -p "
     openFile
   elif [ "$osin" = "2" ]; then
     postgresSec
-  else ;
+  else 
     echo "that is not a valid input :( )"
-    toolbelt
+    menu
   fi
 
   }
