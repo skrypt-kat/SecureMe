@@ -8,10 +8,9 @@ function toolbelt {
 echo "this is the function menu"
 read -n1 -p "
   Press 1 for Basics,
-	press 2 for System monitoring tools,
-	press 3 for Fedora (devil spawn),
-	press 4 for Debian (because you know everything will be through terminal)
-  press 5 to leave " osin
+	press 2 for system monitoring tools,
+	press 3 for securing ssh server
+  press 4 to leave " osin
   if [ "$osin" = "1" ]; then
     basics
   elif [ "$osin" = "2" ]; then
@@ -19,8 +18,6 @@ read -n1 -p "
   elif [ "$osin" = "3" ]; then
     fedora
   elif [ "$osin" = "4" ]; then
-    debian
-  elif [ "$osin" = "5" ]; then
     exit
   else
     echo "that is not a valid input :( )"
@@ -30,35 +27,30 @@ read -n1 -p "
   }
 
   function basics {
-
-    sudo apt install find
-    sudo apt install fd-find
-    sudo apt install tree
-    sudo apt install wget
-    sudo apt install grep
-    sudo apt install ufw
-    sudo apt install gufw
-    sudo apt install libpam-pwquality
+  
+	sudo apt update
+	sudo apt-get install ufw			# firewall
+	sudo apt-get install find			# finding stuff
+	sudo apt-get install fd-find			# better find command
+	sudo apt-get install wget			# downloading online stuff
+	sudo apt-get install libpam-pwquality		# password policies
+    	sudo apt-get install rkhunter			# root kit hunter
+    	sudo apt-get install net-tools			# netstat and other network tools
+    	sudo apt-get install iproute2			# superior net-tools
+ 
 
   }
 
   function sysmonitor {
-
-    # install htop to see all running processes
-    sudo apt update
-    sudo apt install htop
-    # install clamAV for antivirus purpouses
-    # (clamtk GUI) (clamav-daemon for continuous scanning)
-    sudo apt install clamav
-    sudo apt install clamav-daemon clamtk
-    # update clamAV database
-    sudo freshclam
-    sudo apt install openvas
-    sudo apt install rkhunter
-    sudo apt install aide
-    sudo apt install net-tools
-    sudo apt install iproute2
-
+	sudo apt update
+ 	sudo apt-get install lynis
+  	sudo apt-get install logwatch
+   	sudo apt-get install unattended-upgrades
+    	sudo apt-get install claamav
+     	sudo apt-get install htop
+      	sudo apt-get install tcpdump
+       	sudo apt-get install lsof
+  
   }
 
   #actually running the script
