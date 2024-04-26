@@ -9,12 +9,15 @@ echo "this is the function menu"
 read -n1 -p "
 	Press 1 for Basics,
 	press 2 for system monitoring tools,
-	press 3 to leave " osin
+ 	press 3 for update repository
+	press 4 to leave " osin
   if [ "$osin" = "1" ]; then
     basics
   elif [ "$osin" = "2" ]; then
     sysmonitor
   elif [ "$osin" = "3" ]; then
+    updaterep
+  elif [ "$osin" = "4" ]; then
     exit
   else
     echo "that is not a valid input :( )"
@@ -50,6 +53,14 @@ read -n1 -p "
   
   }
 
+function updaterep {
+	sudo apt-get update
+ 	sudo apt-get upgrade
+  	sudo apt-get dist-upgrade
+   	sudo apt-get autoclean
+    	sudo apt-get autoremove
+
+}
 
   #actually running the script
   unalias -a #Get rid of aliases
