@@ -9,15 +9,12 @@ echo "this is the function menu"
 read -n1 -p "
   Press 1 for Basics,
 	press 2 for system monitoring tools,
-	press 3 for securing ssh server
-  press 4 to leave " osin
+  press 3 to leave " osin
   if [ "$osin" = "1" ]; then
     basics
   elif [ "$osin" = "2" ]; then
     sysmonitor
   elif [ "$osin" = "3" ]; then
-    fedora
-  elif [ "$osin" = "4" ]; then
     exit
   else
     echo "that is not a valid input :( )"
@@ -52,6 +49,7 @@ read -n1 -p "
        	sudo apt-get install lsof
   
   }
+
 
   #actually running the script
   unalias -a #Get rid of aliases
