@@ -1,15 +1,15 @@
 #! /bin/bash
 
-echo 'Hi user! Welcome to your toolbelt, what machine will we be working on today?.'
+echo 'Hi user! Welcome to your toolbelt, whatcha wanna do?.'
 
 function toolbelt {
 
 # menu for different ubuntu types
 echo "this is the function menu"
 read -n1 -p "
-  Press 1 for Basics,
+	Press 1 for Basics,
 	press 2 for system monitoring tools,
-  press 3 to leave " osin
+	press 3 to leave " osin
   if [ "$osin" = "1" ]; then
     basics
   elif [ "$osin" = "2" ]; then
