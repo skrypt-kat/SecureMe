@@ -17,8 +17,8 @@ read -n1 -p "	Press 1 for updates,
 	press 7 for rootkit configs
 	press 8 for software cleanup
  	press 9 for users
-  	press a for FTP configs
-   	press b for PAM file configs" osin
+  	press a for FTP configs		UNTESTED
+   	press b for PAM file configs	UNTESTED" osin
 	if [ "$osin" = "1" ]; then
 		aptf #apt-get update #
 	elif [ "$osin" = "2" ]; then
