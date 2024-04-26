@@ -1,0 +1,45 @@
+# !/bin/bash
+
+# Suspicious Backdoor Finder Script
+
+# Check if script is run as root
+if [ "$(id -u)" != "0" ]; then
+    echo "Please run this script as root or with sudo privileges."
+    exit 1
+fi
+
+# Function to find suspicious backdoor connections
+find_backdoors() {
+    echo "Searching for suspicious backdoor connections..."
+    echo "=============================================="
+
+    # Use netstat to display active network connections
+    netstat -tuln | grep -E '^(tcp|udp)' | awk '{print $4,$5}' | while read -r line; do
+        local ip=$(echo "$line" | awk '{print $1}')
+        local port=$(echo "$line" | awk '{print $2}')
+        
+# Convert port to integer for comparison
+if ((port < 1024)) && [[ "$ip" != "127.0.0.1" && "$ip" != "::1" ]]; then
+    echo "Suspicious connection detected: $ip:$port"
+fi
+
+    done
+
+    echo "=============================================="
+    echo "Search complete."
+}
+
+# Main function
+main() {
+    # Check if net-tools package is installed
+    if ! dpkg -l | grep -q "^ii.*net-tools"; then
+        echo "The net-tools package is not installed. Please install it before running this script."
+        exit 1
+    fi
+
+    # Run the backdoor finder function
+    find_backdoors
+}
+
+# Run main function
+main
