@@ -25,7 +25,7 @@ read -n1 -p "
 
   function basics {
   
-	sudo apt update
+	sudo apt-get update
 	sudo apt-get install ufw			# firewall
 	sudo apt-get install find			# finding stuff
 	sudo apt-get install fd-find			# better find command
