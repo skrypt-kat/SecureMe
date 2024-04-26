@@ -1,0 +1,46 @@
+#! /bin/bash
+
+# Lynis audit script
+
+# Check if script is run as root
+if [ "$(id -u)" != "0" ]; then
+    echo "Please run this script as root or with sudo privileges."
+    exit 1
+fi
+
+# Define variables
+LYNIS_LOG="/var/log/lynis.log"
+
+# Function to display usage
+usage() {
+    echo "Usage: $0"
+    echo "Description: This script runs a Lynis security audit on the system and generates a report."
+}
+
+# Function to run Lynis audit
+run_lynis_audit() {
+    echo "Running Lynis security audit..."
+    lynis audit system --cronjob > "$LYNIS_LOG"
+    echo "Lynis audit completed. Report saved to: $LYNIS_LOG"
+}
+
+# Main function
+main() {
+    # Check if Lynis is installed
+    if ! command -v lynis &> /dev/null; then
+        echo "Lynis is not installed. Please install Lynis before running this script."
+        exit 1
+    fi
+
+    # Display usage if incorrect arguments are provided
+    if [ "$#" -ne 0 ]; then
+        usage
+        exit 1
+    fi
+
+    # Run Lynis audit
+    run_lynis_audit
+}
+
+# Run main function
+main "$@"
