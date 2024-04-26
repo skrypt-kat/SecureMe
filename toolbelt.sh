@@ -34,7 +34,7 @@ read -n1 -p "
     	sudo apt-get install rkhunter			# root kit hunter
     	sudo apt-get install net-tools			# netstat and other network tools
     	sudo apt-get install iproute2			# superior net-tools
- 
+ 	echo "basics downloaded" >> checklist.txt
 
   }
 
@@ -47,7 +47,7 @@ read -n1 -p "
      	sudo apt-get install htop
       	sudo apt-get install tcpdump
        	sudo apt-get install lsof
-  
+  	echo "system monitoring tools downloaded" >> checklist.txt
   }
 
 
