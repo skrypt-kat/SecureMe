@@ -43,7 +43,7 @@ read -n1 -p "
  	sudo apt-get install lynis
   	sudo apt-get install logwatch
    	sudo apt-get install unattended-upgrades
-    	sudo apt-get install claamav
+    	sudo apt-get install clamav
      	sudo apt-get install htop
       	sudo apt-get install tcpdump
        	sudo apt-get install lsof
